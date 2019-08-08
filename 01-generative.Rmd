@@ -1,0 +1,3 @@
+# Generative Models for Discrete Data {#intro}
+
+

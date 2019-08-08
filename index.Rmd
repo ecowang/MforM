@@ -1,0 +1,17 @@
+--- 
+title: "读Modern Statistics for Modern Biology随记"
+author: "王强"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: ecowang/M for M
+description: "学习Modern Statistics for Modern Biology记录"
+---
+
+# Introduction
+
+

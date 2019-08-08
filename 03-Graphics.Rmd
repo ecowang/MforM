@@ -1,0 +1,3 @@
+# High-Quality Graphics in R
+
+We describe our methods in this chapter.
