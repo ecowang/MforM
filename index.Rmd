@@ -14,4 +14,6 @@ description: "学习Modern Statistics for Modern Biology记录"
 
 # Introduction
 
-
+```{r}
+getwd()
+```
