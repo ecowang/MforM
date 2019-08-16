@@ -14,13 +14,13 @@ description: "学习Modern Statistics for Modern Biology记录"
 
 # Introduction 引言
 
-## 一些背景
+## 缘起
 
 [Modern Statistics for Modern Biology](http://web.stanford.edu/class/bios221/book/index.html)这本书，是斯坦福大学[Susan P. Holmes](https://profiles.stanford.edu/susan-holmes) 教授和 [欧洲分子生物实验室](https://www.embl.org/)的[Wolfgang Huber](https://www.huber.embl.de/) 教授共同编写的。两位都是大牛，追求他们的文章可以发现学科发展趋势的那种。
 
-Holme教授在斯坦福大学暑期学校也教[这门课](http://web.stanford.edu/class/bios221/about.html)，课程时长才[十来天](http://web.stanford.edu/class/bios221/TimesCourse.html)。我本想找找有没有视频跟着学学，不过一直没找到，只好跟着书学，并在这里写一些记录。
+这本书2018年才出版，全文上网，还有配套的练习代码、数据，是很新鲜的学习材料。Holme教授在斯坦福大学暑期学校也教[这门课](http://web.stanford.edu/class/bios221/about.html)，课程时长才[十来天](http://web.stanford.edu/class/bios221/TimesCourse.html)。我本想找找有没有视频跟着学学，不过一直没找到，只好跟着书学，并在这里写一些记录。
 
-## 本书目标
+## 原书目标
 
 > The aim of this book is to enable scientists working in biological research to quickly learn many of the important ideas and methods that they need to make the best of their experiments and of other available data. 
 
@@ -38,7 +38,7 @@ Holme教授在斯坦福大学暑期学校也教[这门课](http://web.stanford.e
 
 知道前提数据，并了解它们的表现形式，是很重要的环节。Susan在书中提出应对数据的**差异性**（[The challenge: heterogeneity](http://web.stanford.edu/class/bios221/book/introduction.html)），也说明生命学科不同细分领域产生数据的多样性和差异性令人挠头。当然R语言作为一种语言，应对这种差异性再合适不过——语言嘛，见人说人话见鬼说鬼话就是了，前提是我们要大致了解这些神神鬼鬼，并学会一定的说话套路。
 
-## 主要内容
+## 本书特点
 
 ### 统计江湖的套路
 
@@ -61,24 +61,135 @@ knitr::include_graphics("http://web.stanford.edu/class/bios221/book/images/Fishe
 
 基本上，EDA好像公安，遇见案子了要明确问题、搜集线索、整理证据、得出推论，而CDA就是检查院，要对公安得出的结论，以及整个证据链，进行检验，明确是否接受这个结论。接受了就送交法院，不接受呢，就得打回去，重新办理。
 
-### 生命学科应用统计学的特殊性
+### 统计的常见概念和生命学科特殊性
 
-明确了统计学的大体套路，再看生命学科的特殊性——大 *p* 小 *n* 问题。
+原书中在EDA和CDA后，直接介绍生命学科搞统计遇到的的大 *p* 小 *n* 问题，介绍其如何不利于建模和得出推论。这里稍微扩展一点，明确一点概念和普通的建模，便于后面对照理解。
 
-先明确一下 *p* 和 *n* 的意义。在做统计之前，一般要把原始数据按`case/个体（测量对象）`和`variable/属性（变量）`按照**行**和**列**进行整理。整理好的数据，有多少个`case/个体（测量对象）`，*n* 就是多少；有多少`variable/属性（变量）`，*p* 就是多少。收集数据的时候也要有这个意识，好的原始数据结构会减少后续整理的麻烦。
+#### 关于 *p* 和 *n*
 
+先明确一下统计学常见的 *p* 和 *n* 是什么。 统计分析之前要有数据整理的过程，一般要把原始数据按 `case/observation/个体/测量对象` 和 `variable/属性/变量` 按照**行**和**列**进行整理。整理好的数据，有多少个`case/个体（测量对象）`，*n* 就是多少；有多少`variable/属性（变量）`，*p* 就是多少。收集数据的时候也要有这个意识，好的原始数据结构会减少后续整理的麻烦。 
 
-```{r, fig.cap='示例，行为case，列为variable', fig.align='center', echo=FALSE}
+```{r, fig.cap='Excel中的示例，行为case，列为variable，这样放能直接应用**数据透视表**', fig.align='center', echo=FALSE}
 knitr::include_graphics("static/Users/eco/M for M/index_files/屏幕快照 2019-08-13 下午4.23.00.png")
-
 ```
 
+#### 一个普通的建模
+
+从根上讲，所谓建模，其实就是找到要分析数据的，对我们有意义的某些方面的规律，并用公式表达出来；有时候需要把提取出来的规律应用到新的数据，得出预测的结果。Hadley把建模分为2类 [@grolemund] ~~才发现这本书Hadley居然不是第一作者~~：
+
+ 模型类别 | 别称1 |别称2 
+---|---|---
+  * 预测模型 | “predictive” models | supervised models
+  * 数据分析模型 | “data discovery” models  |  unsupervised models
+
+  
+预测模型好理解，我做个线性回归，这个回归模型肯定能在一定范围内预测趋势。可数据分析模型到底是啥玩意，咱也不知道，咱也搜不着，data discovery 从搜索结果看指向很宽泛的数据分析领域，unsupervised model呢，又和deep learning 经常出现在一块。所以我可以先把这个概念放一边——肯定不是啥严谨的东西，估计是主成分分析、聚类分析等不能外推规律的方法。 Hadley [书中](https://r4ds.had.co.nz/model-intro.html)也只介绍预测模型，下面摘一个简单的例子。
+
+```{r, echo = FALSE}
+library(ggplot2)
+library(tidyverse)
+library(modelr)
+options(na.action = na.warn)
+```
+
+  ```{r, echo=FALSE}
+knitr::kable(sim1, longtable = FALSE, booktabs = TRUE,
+  caption = 'modelr包中的`sim1`，simulation1的意思，如果觉得不好想象，可以当成x是年龄，y是体重'
+)
+```
+
+这组数据拿到手里，要建模，先做个图看看。
 
 
+```{r, fig.cap="拿眼一看就有明显的线性关系", fig.align='center', echo = FALSE}
+library(ggplot2)
+library(tidyverse)
+library(modelr)
+options(na.action = na.warn)
 
+ggplot(sim1, aes(x, y)) + 
+  geom_point()
+```
 
+然后要找到这个线性关系。高中数学告诉我们可以用 $Y = aX + b$ 的形式表现这个线，然后就要找到 $a$ 和 $b$ 。实现方法很简单：
 
+```{r}
+sim1_mod <- lm(y ~ x, data = sim1)
+coef(sim1_mod)
+```
 
+得到线性模型 $Y = 2.051533 X + 4.220822$ 。 如果用图形表现，可以这样实现。
 
+```{r, fig.cap="线性模型的图形表现", fig.align='center'}
+ggplot(sim1, aes(x, y)) + 
+  geom_point() +
+  geom_smooth(method = "lm", color = 'red', se = FALSE)
+```
 
+这样一个简单模型就出来了，它充分归纳了已有数据的规律，也能推测数据之外的一定范围，比如可以推测11岁的时候大概有多重，这也是统计的目的所在——通过已知，预测未知。这里要注意，本数据中 *p* 是很少的（就俩，$x$ 和 $y$ ）， *n* 是很多的，有30个，要建立模型，是需要确定 *p* 之间的系数的。
 
+#### 生命学科的大 *p* 小 *n* 问题
+
+生命学科由于其特点，经常呈现出和刚才举例完全相反的数据。比如200个病人的基因样本，可能每个病人都有20000个基因。想想刚才的 $Y = 2.051533 X + 4.220822$ ，如果想建立线性模型，理论上这个公式要扩充到20000个参数。
+
+统计学家目前通过两种方向解决这个问题：
+
+* 人工筛选变量（sparsity principle），把没用都的变量系数提前定义成0，或者接近0 [@hastie_elements_2016]。
+* 贝叶斯经验方法（empirical Bayes），是sparsity principle的扩展（generalization），该方法认为“组间，或者性状之间，总有某些，甚至全部变量应该是相同或类似的”，然后发展出一系列方法，详细了解可参考 @speed_large-scale_2011 。
+
+此外，原书中模拟（Simulations）的内容比较多。通过模拟一些数据练手，摆脱已有分析套路的局限，磨好屠龙刀，争取能更贴近实际的问题。
+
+### 原书中主要内容
+
+基于上述问题和发展出来的分析方法，原书中均有涉及，处理数据包括RNA序列，细胞流式分析，种丰富度，图像数据和单细胞测量等（ RNA-Seq, flow-cytometry, taxa abundances, imaging data and single cell measurements)。作者贴心的说明学习本书不需要统计学背景（assume no prior training in statistics），但得了解一点R的知识，更重要的是愿意折腾——代码、公式、数学分析等。
+
+1. **第一章 广义模型和离散数据/Generative Models for Discrete Data**  
+这一章先介绍简单模型的建立，但和刚才直接做个线性模型不同，本章从概率理论出发讲模型。概率和基因序列分析关系比较密切，结合免疫和DNA分析例子，介绍二项式/binomial, 多项式/multinomial 和泊松随机分布（变量）/ Poisson random variables。
+
+1. **第二章 统计建模 Statistical Modeling**   
+本章和上一章的关系在于，上一章看特定模型下数据长得什么样，这一章给定数据，看能应用什么模型，这才是建模的常规工作。
+
+1. **第三章 R语言高质量作图 High Quality Graphics in R**   
+讲了ggplot2，还有一些数据转化、作图语法方面的内容。
+
+1. **第四章 混合模型 Mixture Models**   
+数据肯定不会都顺顺当当的按模式分布，要刻画真实的数据，要把简单的模型进行组合，做成混合模型来反映实际。也包含一些数据转化的内容，这里转化要注意的是保证信息的稳定。（appropriate variance stabilizing transformations）
+
+1. **第五章 聚类 Clustering**     
+The large, matrix-like ( $n×p$ ) datasets in biology naturally lend themselves to clustering。数据只要能计算出Matrix-like的距离来，都可以应用聚类，这一章可能会大量介绍如何对不同类型的数据计算距离吧。
+
+1. **第七章 多元统计  Multivariate Analysis     
+第九章 针对乱糟糟数据的多元方法  Multivariate methods for heterogeneous data**   
+从逻辑上说，这两章虽然不挨着，但都是所谓EDA的范畴，也属于data discovery models或  unsupervised models。 第七章介绍了以主成分分析（PCA）为主线的多元统计方法，第九章深入应用这些方法，涉及非线性、分类变量、同一观测多重测定（multiple assays recorded on the same observational units）等
+
+1. **第六章 检验 testing**   
+检验可以针对假说、可以对模型，验证其是否合理，是否显著。介绍中说会实际检验一个 $n × p$ 的数据集中，哪个基因或性状与某种疾病或其他表现是有联系的。但传统的显著性指标（也就是p值）不好使，所以要好好研究下多元检验（multiple testing）。
+
+1. **第八章 高通量计数数据 High-Throughput Count Data**   
+统计学一大利器是方差分解（variance decomposition），或曰方差分析（ANOVA）。本章以线性模型和广义线性模型的套路，分析RNA序列数据。分析也会涉及计数数据以及对稳健性（robustness）的讨论。
+
+1. **第十章 网和树 Networks and Trees**   
+据说生命科学中除了从进化的角度分析问题，其他啥都没多少意义。进化关系在系统发育树中体现，本章探索网和树的应用。
+
+1. **第十一章 图像数据 Image data**   
+在图像中提取特征数据，并进行分析，也是EDA的范畴。本章学习图像数据读写操作，分析方法等。
+
+1. **第十二章 监督式学习  Supervised Leaning**  
+属于统计学习的范畴（不知道算不算机器学习），如训练一个公式，基于某些多维特征向量分辨不同对象。从简单低维特征向量和线性方法开始，也探索高纬度分类设计。 ~~囧。。。说的啥啊这是~~。
+
+1. **第十三章 高通量实验设计及分析 Design of High Throughput Experiments and their Analyses**  
+介绍好的实验设计和相关数据分析，会对书中所学方法综合运用。
+
+## 需要的计算机技能
+
+通过对原书内容的概览，可以发现分析对象、角度、方法多种多样，要满足需求，要用 R 和 Bioconductor。
+
+R是一种语言，一种为统计而生的语言；Bioconductor是基于R语言项目，专门提供搞生物数据的工具。要开始学习R语言有海量的资源，原书作者建议从 [R for Data Science](http://r4ds.had.co.nz) 开始学习，我也这么建议，因为Hadley确实是大神。 原书中用到的ggplot2， dplyr包，都是他写的。
+
+另一个大神大家也可以关注，是中国人，现在美国，人大毕业，Rstudio主力程序员——[谢益辉](https://yihui.name/)。作图和排版用的很多包，blogdown，bookdown，knitr等，都是他写的。包括本人现在写的这个记录，也是用bookdown写的，我的个人网站也是用的他的模板。
+
+从这样的学科头部学者身上学习，会更有高度，更系统，当然也会更有难度，更需要学习能力。
+
+Modern Statistics for Modern Biology的作者也是学科头部学者，而且这本书把数据代码都给出来，便于练习，是很好的学习材料。
+
+所以还等什么呢，下载[R](https://www.r-project.org/)，下载[Rstudio](https://www.rstudio.com/)，安装需要的包，开动吧。

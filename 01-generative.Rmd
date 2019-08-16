@@ -1,3 +1,69 @@
-# Generative Models for Discrete Data {#intro}
+# Generative Models for Discrete Data 广义模型和离散数据 {#intro}
+
+## 本章概述
+
+这一章是假设各种符合某分布的数据，主要以DNA、碱基等为描述对象。原书中的说法是 top-bottom 的方式，从我们了解的各种概率分布（top）开始，设计符合这些分布原则的具体问题，如碱基分布模式等。当然这是一种理想化的训练，实际的问题多是反方向 bottom-top 的，通过分析实际数据获取数据规律，或者建立模型。
+
+本章主要目标包括：
+
+*   获取特定模型下所有可能结果的概率，并将理论值与实际数据比较。
+Learn how to obtain the probabilities of all possible outcomes from a given model and see how we can compare the theoretical frequencies with those observed in real data.
+
+* 通过一个完整示例，了解如何应用泊松分布分析抗原数据。   
+Explore a complete example of how to use the Poisson distribution to analyse data on epitope detection.
+
+* 如何应用泊松分布、二项式分布、多项式分布模型来做实验。  
+See how we can experiment with the most useful generative models for discrete data: Poisson, binomial, multinomial.
+
+* 使用R函数计算概率和偶发事件。  
+Use the R functions for computing probabilities and counting rare events.
+
+* 生成符合特定分布的随机数。   
+Generate random numbers from specified distributions.
+
+## 回顾一些基础知识
+
+### 概率论与数理统计
+
+看到这一章，想起来以前断断续续学过的统计学。
+
+```{r , fig.cap='陈希孺老先生的概率论与数理统计', fig.align='center',  out.width='40%', echo=FALSE}
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/ZJuhzAKtSo+j8wR5zY04RA.jpg")
+```
+
+### 生命科学一些基础知识（直接看图吧）
+
+```{r , fig.cap='DNA 展开结构示意图。染色体-染色质-组织蛋白-脱氧核糖核酸双螺旋结构-基因-碱基对', fig.align='center',  out.width='80%', echo=FALSE}
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/DNA sequence.png")
+```
+
+```{r , fig.cap='RNA上的密码子[codons](https://en.wikipedia.org/wiki/DNA_codon_table)，“how many codons use a certain spelling”', fig.align='center',  out.width='100%', echo=FALSE}
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/codon.jpg")
+```
+
+```{r , fig.cap='[In DNA sequencing, a read is an inferred sequence of base pairs (or base pair probabilities) corresponding to all or part of a single DNA fragment. A typical sequencing experiment involves fragmentation of the genome into millions of molecules, which are size-selected and ligated to adapters. The set of fragments is referred to as a sequencing library, which is sequenced to produce a set of reads.](https://en.wikipedia.org/wiki/Read_(biology))', fig.align='center',  out.width='100%', echo=FALSE}
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/dna.jpg")
+```
+
+## 本章一些单词
+
+有些分子生物学方面的词儿，在上一节和图一块熟悉了，这里主要列出统计方面的。
+
+
+
+## 本章小结
+
+* 伯努利分布（**Bernoulli distribution**），
+
+
+
+
+
+
+
+
+
+
+
 
 
