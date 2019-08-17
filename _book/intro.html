@@ -24,7 +24,7 @@
 <meta name="author" content="王强" />
 
 
-<meta name="date" content="2019-08-16" />
+<meta name="date" content="2019-08-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -82,8 +82,10 @@
 <li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#section-2.2.1"><i class="fa fa-check"></i><b>2.2.1</b> 概率论与数理统计</a></li>
 <li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#section-2.2.2"><i class="fa fa-check"></i><b>2.2.2</b> 生命科学一些基础知识（直接看图吧）</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 本章一些单词</a></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#section-2.4"><i class="fa fa-check"></i><b>2.4</b> 本章小结</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 本章主要内容</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> 大体框架</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#section-2.3.2"><i class="fa fa-check"></i><b>2.3.2</b> 分头看看几种分布</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>3</b> Statistical Modeling</a></li>
 <li class="chapter" data-level="4" data-path="high-quality-graphics-in-r.html"><a href="high-quality-graphics-in-r.html"><i class="fa fa-check"></i><b>4</b> High-Quality Graphics in R</a></li>
@@ -141,13 +143,47 @@ Generate random numbers from specified distributions.</p></li>
 <h2><span class="header-section-number">2.2</span> 回顾一些基础知识</h2>
 <div id="section-2.2.1" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> 概率论与数理统计</h3>
-<p>看到这一章，想起来以前断断续续学过的统计学。</p>
+<p>看这一章，感觉有些概念不清楚，再去学陈希孺老先生的的《概率论与统计统计》。</p>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
-<img src="static/Users/eco/M%20for%20M/01-generative_files/ZJuhzAKtSo+j8wR5zY04RA.jpg" alt="陈希孺老先生的概率论与数理统计" width="40%" />
+<img src="static/Users/eco/M%20for%20M/01-generative_files/ZJuhzAKtSo+j8wR5zY04RA.jpg" alt="陈希孺老先生的概率论与数理统计" width="60%" />
 <p class="caption">
 Figure 2.1: 陈希孺老先生的概率论与数理统计
 </p>
 </div>
+<p>带着点问题重新硬着头皮读，才发现这真的如同很多牛人推荐的，是一本神仙书。原来读的时候太功利，总想翻上几页就能拿去在R语言上套函数解决实际问题了，可看了看都是理论性的东西用不上，就丢到一边。现在再看，才发现老先生真是不紧不慢、娓娓道来，从“道”的高度把概率论和数理统计的有关概念、发展历程、应用场景等等系统的解释一遍。虽然是入门书，但好多领域的拓展也有谈及，用平实的语言勾画了宏大的场景，让人越读越有跪感。</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>名词</th>
+<th>定义</th>
+<th>原书涉及</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>试验/Trial</td>
+<td>要有明确界限，宽泛的可以包含“观察”。全部结果是试验前即明确的，如抛硬币2面，掷骰子6点，事件发生概率为0到正无穷。</td>
+<td>Tossing a coin has two possible outcomes. This simple experiment, called a Bernoulli <strong>trial</strong>, is modeled using a so-called Bernoulli random variable.</td>
+</tr>
+<tr class="even">
+<td>事件/envent</td>
+<td>一个明确的陈述，界定了试验全部可能结果中一确定的部分，这个陈述或这一确定的部分，即一个事件。</td>
+<td>In molecular biology, many situations involve counting <strong>events</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>古典概率计算归结为计算两个数M和N，这种计算多涉及排列组合。如n个不同物体，取r个的排列数是 <span class="math inline">\(P_r^n = n(n-1)(n-2)...(n-r-1)\)</span>，而不同组合数则为<span class="math inline">\(C_r^m = P_r^n/r!=n!/(r!()n-r)!\)</span> ，这个 <span class="math inline">\(C_r^m\)</span> 又称为<strong>组合系数</strong>，统计上习惯用这种形式来表示：<span class="math inline">\(C_r^n = \binom{n}{r}\)</span>。</p>
+<p>组合系数 <span class="math inline">\(C_r^m\)</span> 又常称为<strong>二项式系数</strong>，因为常出现在下列二项式展开的公式中：
+<span class="math display">\[(a + b)^n = \sum_{i=0}^{n} \binom{n}{i} a^ib^{n-i} \]</span>
+还有<strong>多项式系数</strong>，n个相异物分成k堆，各堆个数分别为<span class="math inline">\(r_1 , r_2..., r_k\)</span>分法是。
+<span class="math display">\[n!/(r_1!...r_k!)\]</span>
+它是<span class="math inline">\((x_1 + x_2 + ... + x_k)^n\)</span>的展开式中，<span class="math inline">\(x_1^{r_1}...x_k^{r_k}\)</span>这一项的系数。</p>
+<p>虽然不知道这几个公式和二项分布、多项分布有啥关系，不过老先生不会随便说，先放着慢慢领会吧。</p>
 </div>
 <div id="section-2.2.2" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> 生命科学一些基础知识（直接看图吧）</h3>
@@ -172,15 +208,51 @@ Figure 2.4: <a href="https://en.wikipedia.org/wiki/Read_(biology)">In DNA sequen
 </div>
 </div>
 <div id="section-2.3" class="section level2">
-<h2><span class="header-section-number">2.3</span> 本章一些单词</h2>
-<p>有些分子生物学方面的词儿，在上一节和图一块熟悉了，这里主要列出统计方面的。</p>
-</div>
-<div id="section-2.4" class="section level2">
-<h2><span class="header-section-number">2.4</span> 本章小结</h2>
+<h2><span class="header-section-number">2.3</span> 本章主要内容</h2>
+<div id="section-2.3.1" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> 大体框架</h3>
+<p>如原文所说，这一章是一种“从上而下”的套路练习。通过设计一些符合概率分布模型的数据，了解数据和概率之间的关系。主要讲了4种分布：</p>
 <ul>
-<li>伯努利分布（<strong>Bernoulli distribution</strong>），</li>
+<li>伯努利分布（<strong>Bernoulli distribution</strong>），又称两点分布或者’0-1’分布，要么成功是1，要么失败是0，只有一种可能。
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="static/Users/eco/M%20for%20M/01-generative_files/%E4%BC%AF%E5%8A%AA%E5%88%A9%E5%88%86%E5%B8%83.png" alt="伯努利分布的维基百科解释" width="100%" />
+<p class="caption">
+Figure 2.5: 伯努利分布的维基百科解释
+</p>
+</div></li>
+<li>二项式分布（<strong>binomial distribution</strong>），二项分布即重复n次的伯努里试验。在每次试验中只有两种可能的结果,而且是互相对立的，是独立的,与其它各次试验结果无关，结果事件发生的概率在整个系列试验中保持不变,则这一系列试验称为伯努力试验。<br />
+二项分布的典型例子是扔硬币，硬币正面朝上概率为p, 重复扔n次硬币，k次为正面的概率即为一个二项分布概率。
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="static/Users/eco/M%20for%20M/01-generative_files/%E4%BA%8C%E9%A1%B9%E5%BC%8F.png" alt="二项分布的维基百科解释" width="100%" />
+<p class="caption">
+Figure 2.6: 二项分布的维基百科解释
+</p>
+</div></li>
+<li>泊松分布（<strong>Poisson distribution</strong>），泊松分布是二项分布n很大而p很小时的一种极限形式二项分布是说，已知某件事情发生的概率是p，那么做n次试验，事情发生的次数就服从于二项分布。泊松分布是指某段连续的时间内某件事情发生的次数，而且“某件事情”发生所用的时间是可以忽略的。例如，在五分钟内，电子元件遭受脉冲的次数，就服从于泊松分布。假如你把“连续的时间”分割成无数小份，那么每个小份之间都是相互独立的。在每个很小的时间区间内，电子元件都有可能“遭受到脉冲”或者“没有遭受到脉冲”，这就可以被认为是一个p很小的二项分布。而因为“连续的时间”被分割成无穷多份，因此n(试验次数)很大。所以，泊松分布可以认为是二项分布的一种极限形式。因为二项分布其实就是一个最最简单的“发生”与“不发生”的分布，它可以描述非常多的随机的自然界现象，因此其极限形式泊松分布自然也是非常有用的。
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="static/Users/eco/M%20for%20M/01-generative_files/%E6%B3%8A%E6%9D%BE.png" alt="泊松分布的维基百科解释" width="100%" />
+<p class="caption">
+Figure 2.7: 泊松分布的维基百科解释
+</p>
+</div></li>
+<li>多项分布（<strong>multinomial distribution</strong>）二项扩展为多项就得到了多项分布。二项分布的试验结果只有两个(成功和失败)，而多项分布的试验结果则多于两个。如果试验的结果有三个，则是三项分布；如果结果有六个，则是六项分布比如扔骰子，不同于扔硬币，骰子有6个面对应6个不同的点数，这样单次每个点数朝上的概率都是1/6（对应p1~p6，它们的值不一定都是1/6，只要和为1且互斥即可
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="static/Users/eco/M%20for%20M/01-generative_files/multi.png" alt="多项式分布的wikipedia解释" width="100%" />
+<p class="caption">
+Figure 2.8: 多项式分布的wikipedia解释
+</p>
+</div></li>
 </ul>
+</div>
+<div id="section-2.3.2" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> 分头看看几种分布</h3>
+<p>dbern(x, prob, log = FALSE)
+pbern(q, prob, lower.tail = TRUE, log.p = FALSE)
+qbern(p, prob, lower.tail = TRUE, log.p = FALSE)
+rbern(n, prob)
+```</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -234,6 +306,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
