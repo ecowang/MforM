@@ -24,7 +24,7 @@
 <meta name="author" content="王强" />
 
 
-<meta name="date" content="2019-08-16" />
+<meta name="date" content="2019-08-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -144,8 +144,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#section-2.2.1"><i class="fa fa-check"></i><b>2.2.1</b> 概率论与数理统计</a></li>
 <li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#section-2.2.2"><i class="fa fa-check"></i><b>2.2.2</b> 生命科学一些基础知识（直接看图吧）</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 本章一些单词</a></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#section-2.4"><i class="fa fa-check"></i><b>2.4</b> 本章小结</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 本章主要内容</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> 大体框架</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#section-2.3.2"><i class="fa fa-check"></i><b>2.3.2</b> 分头看看几种分布</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>3</b> Statistical Modeling</a></li>
 <li class="chapter" data-level="4" data-path="high-quality-graphics-in-r.html"><a href="high-quality-graphics-in-r.html"><i class="fa fa-check"></i><b>4</b> High-Quality Graphics in R</a></li>
@@ -183,13 +185,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">读Modern Statistics for Modern Biology随记</h1>
 <p class="author"><em>王强</em></p>
-<p class="date"><em>2019-08-16</em></p>
+<p class="date"><em>2019-08-17</em></p>
 </div>
 <div id="introduction-" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction 引言</h1>
 <div id="section-1.1" class="section level2">
 <h2><span class="header-section-number">1.1</span> 缘起</h2>
-<p><a href="http://web.stanford.edu/class/bios221/book/index.html">Modern Statistics for Modern Biology</a>这本书，是斯坦福大学<a href="https://profiles.stanford.edu/susan-holmes">Susan P. Holmes</a> 教授和 <a href="https://www.embl.org/">欧洲分子生物实验室</a>的<a href="https://www.huber.embl.de/">Wolfgang Huber</a> 教授共同编写的。两位都是大牛，追求他们的文章可以发现学科发展趋势的那种。</p>
+<p><a href="http://web.stanford.edu/class/bios221/book/index.html">Modern Statistics for Modern Biology</a>这本书，是斯坦福大学<a href="https://profiles.stanford.edu/susan-holmes">Susan P. Holmes</a> 教授和 <a href="https://www.embl.org/">欧洲分子生物实验室</a>的<a href="https://www.huber.embl.de/">Wolfgang Huber</a> 教授共同编写的。两位都是大牛，追他们的文章可以发现学科发展趋势的那种。</p>
 <p>这本书2018年才出版，全文上网，还有配套的练习代码、数据，是很新鲜的学习材料。Holme教授在斯坦福大学暑期学校也教<a href="http://web.stanford.edu/class/bios221/about.html">这门课</a>，课程时长才<a href="http://web.stanford.edu/class/bios221/TimesCourse.html">十来天</a>。我本想找找有没有视频跟着学学，不过一直没找到，只好跟着书学，并在这里写一些记录。</p>
 </div>
 <div id="section-1.2" class="section level2">
@@ -282,19 +284,6 @@ Figure 1.2: Excel中的示例，行为case，列为variable，这样放能直接
 </tbody>
 </table>
 <p>预测模型好理解，我做个线性回归，这个回归模型肯定能在一定范围内预测趋势。可数据分析模型到底是啥玩意，咱也不知道，咱也搜不着，data discovery 从搜索结果看指向很宽泛的数据分析领域，unsupervised model呢，又和deep learning 经常出现在一块。所以我可以先把这个概念放一边——肯定不是啥严谨的东西，估计是主成分分析、聚类分析等不能外推规律的方法。 Hadley <a href="https://r4ds.had.co.nz/model-intro.html">书中</a>也只介绍预测模型，下面摘一个简单的例子。</p>
-<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ tibble  2.1.3     ✔ purrr   0.3.2
-## ✔ tidyr   0.8.3     ✔ dplyr   0.8.1
-## ✔ readr   1.3.1     ✔ stringr 1.4.0
-## ✔ tibble  2.1.3     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-4">Table 1.1: </span>modelr包中的<code>sim1</code>，simulation1的意思，如果觉得不好想象，可以当成x是年龄，y是体重</caption>
 <thead>
@@ -434,14 +423,14 @@ Figure 1.3: 拿眼一看就有明显的线性关系
 </p>
 </div>
 <p>然后要找到这个线性关系。高中数学告诉我们可以用 <span class="math inline">\(Y = aX + b\)</span> 的形式表现这个线，然后就要找到 <span class="math inline">\(a\)</span> 和 <span class="math inline">\(b\)</span> 。实现方法很简单：</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">sim1_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> sim1)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">coef</span>(sim1_mod)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">sim1_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> sim1)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">coef</span>(sim1_mod)</a></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##    4.220822    2.051533</code></pre>
 <p>得到线性模型 <span class="math inline">\(Y = 2.051533 X + 4.220822\)</span> 。 如果用图形表现，可以这样实现。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
 <img src="M-for-M_files/figure-html/unnamed-chunk-7-1.png" alt="线性模型的图形表现" width="672" />
 <p class="caption">

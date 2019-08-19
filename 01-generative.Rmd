@@ -71,18 +71,27 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/dna.jpg")
 如原文所说，这一章是一种“从上而下”的套路练习。通过设计一些符合概率分布模型的数据，了解数据和概率之间的关系。主要讲了4种分布：
 
 * 伯努利分布（**Bernoulli distribution**），又称两点分布或者'0-1'分布，要么成功是1，要么失败是0，只有一种可能。
+
+> It is a special case of the binomial distribution for n = 1. In other words, it is a binomial distribution with a single trial (e.g. a single coin toss)。   
+The Bernoulli distribution is closely related to the Binomial distribution. As long as each individual Bernoulli trial is independent, then the number of successes in a series of Bernoulli trails has a Binomial Distribution.The Bernoulli distribution can also be defined as the Binomial distribution with n = 1.  
+Bernoulli distributions are used in logistic regression to model disease occurrence.    
+[Bernoulli distributions are used in logistic regression to model disease occurrence.](https://www.statisticshowto.datasciencecentral.com/bernoulli-distribution/).
+
 ```{r , fig.cap='伯努利分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
-knitr::include_graphics("static/Users/eco/M for M/01-generative_files/伯努利分布.png")
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/bonuli.png")
 ```
-* 二项式分布（**binomial distribution**），二项分布即重复n次的伯努里试验。在每次试验中只有两种可能的结果,而且是互相对立的，是独立的,与其它各次试验结果无关，结果事件发生的概率在整个系列试验中保持不变,则这一系列试验称为伯努力试验。  
+
+* 二项式分布（**binomial distribution**），二项分布即重复n次的伯努里试验。在每次试验中只有两种可能的结果，而且是互相对立的，是独立的,与其它各次试验结果无关，结果事件发生的概率在整个系列试验中保持不变，则这一系列试验称为伯努力试验。  
 二项分布的典型例子是扔硬币，硬币正面朝上概率为p, 重复扔n次硬币，k次为正面的概率即为一个二项分布概率。
 ```{r , fig.cap='二项分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
-knitr::include_graphics("static/Users/eco/M for M/01-generative_files/二项式.png")
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/binomial.png")
 ```
+
 * 泊松分布（**Poisson distribution**），泊松分布是二项分布n很大而p很小时的一种极限形式二项分布是说，已知某件事情发生的概率是p，那么做n次试验，事情发生的次数就服从于二项分布。泊松分布是指某段连续的时间内某件事情发生的次数，而且“某件事情”发生所用的时间是可以忽略的。例如，在五分钟内，电子元件遭受脉冲的次数，就服从于泊松分布。假如你把“连续的时间”分割成无数小份，那么每个小份之间都是相互独立的。在每个很小的时间区间内，电子元件都有可能“遭受到脉冲”或者“没有遭受到脉冲”，这就可以被认为是一个p很小的二项分布。而因为“连续的时间”被分割成无穷多份，因此n(试验次数)很大。所以，泊松分布可以认为是二项分布的一种极限形式。因为二项分布其实就是一个最最简单的“发生”与“不发生”的分布，它可以描述非常多的随机的自然界现象，因此其极限形式泊松分布自然也是非常有用的。
 ```{r , fig.cap='泊松分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
-knitr::include_graphics("static/Users/eco/M for M/01-generative_files/泊松.png")
+knitr::include_graphics("static/Users/eco/M for M/01-generative_files/bosong.png")
 ```
+
 * 多项分布（**multinomial distribution**）二项扩展为多项就得到了多项分布。二项分布的试验结果只有两个(成功和失败)，而多项分布的试验结果则多于两个。如果试验的结果有三个，则是三项分布；如果结果有六个，则是六项分布比如扔骰子，不同于扔硬币，骰子有6个面对应6个不同的点数，这样单次每个点数朝上的概率都是1/6（对应p1~p6，它们的值不一定都是1/6，只要和为1且互斥即可
 ```{r , fig.cap='多项式分布的wikipedia解释', fig.align='center',  out.width='100%', echo=FALSE}
 knitr::include_graphics("static/Users/eco/M for M/01-generative_files/multi.png")
@@ -91,19 +100,45 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/multi.png"
 
 ### 分头看看几种分布
 
+#### 泊松分布
 
-dbern(x, prob, log = FALSE)
-pbern(q, prob, lower.tail = TRUE, log.p = FALSE)
-qbern(p, prob, lower.tail = TRUE, log.p = FALSE)
-rbern(n, prob)
+原书首先介绍了泊松分布的一个示例。在一段HIV基因上，一次转录发生突变的概率为$5 × 10^{-4}$, 也就是说，一段含有10000个核苷酸（nucleotides）的HIV基因，在一次复制过程中，发生突变的核苷酸个数在5左右，标准差为$\sqrt5$。这个5，在R语言的泊松分布公式中，称为频率参数（rate parameter），写作$\lambda$。 通过确定了出现频率的泊松分布，可以计算某个频率出现的概率。如，计算这段DNA中出现3个变异的概率是多少，实现方式如下。
+
+```{r}
+dpois(x = 3, lambda = 5)
 ```
 
+在R语言中，一个概率一般有4种不同的函数，如泊松分布是这样的。
+
+> * Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
 
 
+函数 | 名称
+ -- | --
+**dpois(x, lambda, log = FALSE)**    | 密度函数
+**ppois(q, lambda, lower.tail = TRUE, log.p = FALSE)**  |  分布函数
+**qpois(p, lambda, lower.tail = TRUE, log.p = FALSE)**  |  分位数函数
+**rpois(n, lambda)**    |  随机数生成函数
 
+参数 | 意义
+ -- | --
+x	 | vector of (non-negative integer) quantiles.
+q	| vector of quantiles.
+p  | vector of probabilities.
+n	| number of random values to return.
+lambda	| vector of (non-negative) means.
+log, log.p	 |  logical; if TRUE, probabilities p are given as log(p).
+lower.tail	|  logical; if TRUE (default), probabilities are P[X ≤ x], otherwise, P[X > x].
 
+> **quantiles, 分位数**，亦称分位点，是指用分割点将一个随机变量的概率分布范围分为几个具有相同概率的连续区间。分割点的数量比划分出的区间少1，例如3个分割点能分出4个区间。 常用的有中位数、四分位数、十分位数、百分位数等。q-quantile是指将有限值集分为q个接近相同尺寸的子集。
 
+The Poisson distribution has density
 
+$$p(x) = λ^x e^{-λ}/x!$$
+
+for x = 0, 1, 2, … . The mean and variance are E(X) = Var(X) = λ.
+
+这里有一个疑问，例子中10000个基因突变5个，计算3 用的公式是`dpois(x = 3, lambda = 5)`，但
 
 
 

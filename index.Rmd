@@ -16,7 +16,7 @@ description: "学习Modern Statistics for Modern Biology记录"
 
 ## 缘起
 
-[Modern Statistics for Modern Biology](http://web.stanford.edu/class/bios221/book/index.html)这本书，是斯坦福大学[Susan P. Holmes](https://profiles.stanford.edu/susan-holmes) 教授和 [欧洲分子生物实验室](https://www.embl.org/)的[Wolfgang Huber](https://www.huber.embl.de/) 教授共同编写的。两位都是大牛，追求他们的文章可以发现学科发展趋势的那种。
+[Modern Statistics for Modern Biology](http://web.stanford.edu/class/bios221/book/index.html)这本书，是斯坦福大学[Susan P. Holmes](https://profiles.stanford.edu/susan-holmes) 教授和 [欧洲分子生物实验室](https://www.embl.org/)的[Wolfgang Huber](https://www.huber.embl.de/) 教授共同编写的。两位都是大牛，追他们的文章可以发现学科发展趋势的那种。
 
 这本书2018年才出版，全文上网，还有配套的练习代码、数据，是很新鲜的学习材料。Holme教授在斯坦福大学暑期学校也教[这门课](http://web.stanford.edu/class/bios221/about.html)，课程时长才[十来天](http://web.stanford.edu/class/bios221/TimesCourse.html)。我本想找找有没有视频跟着学学，不过一直没找到，只好跟着书学，并在这里写一些记录。
 
