@@ -24,7 +24,7 @@
 <meta name="author" content="王强" />
 
 
-<meta name="date" content="2019-08-19" />
+<meta name="date" content="2019-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,6 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 本章主要内容</a><ul>
 <li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> 大体框架</a></li>
 <li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#section-2.3.2"><i class="fa fa-check"></i><b>2.3.2</b> 分头看看几种分布</a></li>
+<li class="chapter" data-level="2.3.3" data-path="intro.html"><a href="intro.html#a-generative-model-for-epitope-detection"><i class="fa fa-check"></i><b>2.3.3</b> 应用一个表位检测模型（a generative model for epitope detection）</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>3</b> Statistical Modeling</a></li>
@@ -206,7 +207,7 @@ Generate random numbers from specified distributions.</p></li>
 <div id="section-2.2.1" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> 概率论与数理统计</h3>
 <p>看这一章，感觉有些概念不清楚，再去学陈希孺老先生的的《概率论与统计统计》。</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/ZJuhzAKtSo+j8wR5zY04RA.jpg" alt="陈希孺老先生的概率论与数理统计" width="60%" />
 <p class="caption">
 Figure 2.1: 陈希孺老先生的概率论与数理统计
@@ -249,19 +250,19 @@ Figure 2.1: 陈希孺老先生的概率论与数理统计
 </div>
 <div id="section-2.2.2" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> 生命科学一些基础知识（直接看图吧）</h3>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/DNA%20sequence.png" alt="DNA 展开结构示意图。染色体-染色质-组织蛋白-脱氧核糖核酸双螺旋结构-基因-碱基对" width="80%" />
 <p class="caption">
 Figure 2.2: DNA 展开结构示意图。染色体-染色质-组织蛋白-脱氧核糖核酸双螺旋结构-基因-碱基对
 </p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/codon.jpg" alt="RNA上的密码子[codons](https://en.wikipedia.org/wiki/DNA_codon_table)，“how many codons use a certain spelling”" width="100%" />
 <p class="caption">
 Figure 2.3: RNA上的密码子<a href="https://en.wikipedia.org/wiki/DNA_codon_table">codons</a>，“how many codons use a certain spelling”
 </p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-11"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/dna.jpg" alt="[In DNA sequencing, a read is an inferred sequence of base pairs (or base pair probabilities) corresponding to all or part of a single DNA fragment. A typical sequencing experiment involves fragmentation of the genome into millions of molecules, which are size-selected and ligated to adapters. The set of fragments is referred to as a sequencing library, which is sequenced to produce a set of reads.](https://en.wikipedia.org/wiki/Read_(biology))" width="100%" />
 <p class="caption">
 Figure 2.4: <a href="https://en.wikipedia.org/wiki/Read_(biology)">In DNA sequencing, a read is an inferred sequence of base pairs (or base pair probabilities) corresponding to all or part of a single DNA fragment. A typical sequencing experiment involves fragmentation of the genome into millions of molecules, which are size-selected and ligated to adapters. The set of fragments is referred to as a sequencing library, which is sequenced to produce a set of reads.</a>
@@ -283,7 +284,7 @@ The Bernoulli distribution is closely related to the Binomial distribution. As l
 Bernoulli distributions are used in logistic regression to model disease occurrence.<br />
 <a href="https://www.statisticshowto.datasciencecentral.com/bernoulli-distribution/">Bernoulli distributions are used in logistic regression to model disease occurrence.</a>.</p>
 </blockquote>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-12"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/bonuli.png" alt="伯努利分布的维基百科解释" width="100%" />
 <p class="caption">
 Figure 2.5: 伯努利分布的维基百科解释
@@ -292,21 +293,21 @@ Figure 2.5: 伯努利分布的维基百科解释
 <ul>
 <li>二项式分布（<strong>binomial distribution</strong>），二项分布即重复n次的伯努里试验。在每次试验中只有两种可能的结果，而且是互相对立的，是独立的,与其它各次试验结果无关，结果事件发生的概率在整个系列试验中保持不变，则这一系列试验称为伯努力试验。<br />
 二项分布的典型例子是扔硬币，硬币正面朝上概率为p, 重复扔n次硬币，k次为正面的概率即为一个二项分布概率。
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/binomial.png" alt="二项分布的维基百科解释" width="100%" />
 <p class="caption">
 Figure 2.6: 二项分布的维基百科解释
 </p>
 </div></li>
 <li>泊松分布（<strong>Poisson distribution</strong>），泊松分布是二项分布n很大而p很小时的一种极限形式二项分布是说，已知某件事情发生的概率是p，那么做n次试验，事情发生的次数就服从于二项分布。泊松分布是指某段连续的时间内某件事情发生的次数，而且“某件事情”发生所用的时间是可以忽略的。例如，在五分钟内，电子元件遭受脉冲的次数，就服从于泊松分布。假如你把“连续的时间”分割成无数小份，那么每个小份之间都是相互独立的。在每个很小的时间区间内，电子元件都有可能“遭受到脉冲”或者“没有遭受到脉冲”，这就可以被认为是一个p很小的二项分布。而因为“连续的时间”被分割成无穷多份，因此n(试验次数)很大。所以，泊松分布可以认为是二项分布的一种极限形式。因为二项分布其实就是一个最最简单的“发生”与“不发生”的分布，它可以描述非常多的随机的自然界现象，因此其极限形式泊松分布自然也是非常有用的。
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/bosong.png" alt="泊松分布的维基百科解释" width="100%" />
 <p class="caption">
 Figure 2.7: 泊松分布的维基百科解释
 </p>
 </div></li>
 <li>多项分布（<strong>multinomial distribution</strong>）二项扩展为多项就得到了多项分布。二项分布的试验结果只有两个(成功和失败)，而多项分布的试验结果则多于两个。如果试验的结果有三个，则是三项分布；如果结果有六个，则是六项分布比如扔骰子，不同于扔硬币，骰子有6个面对应6个不同的点数，这样单次每个点数朝上的概率都是1/6（对应p1~p6，它们的值不一定都是1/6，只要和为1且互斥即可
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-15"></span>
 <img src="static/Users/eco/M%20for%20M/01-generative_files/multi.png" alt="多项式分布的wikipedia解释" width="100%" />
 <p class="caption">
 Figure 2.8: 多项式分布的wikipedia解释
@@ -319,8 +320,20 @@ Figure 2.8: 多项式分布的wikipedia解释
 <div id="section-2.3.2.1" class="section level4">
 <h4><span class="header-section-number">2.3.2.1</span> 泊松分布</h4>
 <p>原书首先介绍了泊松分布的一个示例。在一段HIV基因上，一次转录发生突变的概率为<span class="math inline">\(5 × 10^{-4}\)</span>, 也就是说，一段含有10000个核苷酸（nucleotides）的HIV基因，在一次复制过程中，发生突变的核苷酸个数在5左右，标准差为<span class="math inline">\(\sqrt5\)</span>。这个5，在R语言的泊松分布公式中，称为频率参数（rate parameter），写作<span class="math inline">\(\lambda\)</span>。 通过确定了出现频率的泊松分布，可以计算某个频率出现的概率。如，计算这段DNA中出现3个变异的概率是多少，实现方式如下。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">dpois</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">lambda =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">dpois</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">lambda =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] 0.1403739</code></pre>
+<p>不太明白，lambda是平均数，这里是5，可能没有明确在10000里面发生5啊，那么<code>dpois(x = 30, lambda = 50)</code> 应该得到一样的值吧，可实际上差大了。why！存疑吧。。。</p>
+<p>结合R中的作图，和非常牛逼非常适合统计的<strong>向量数据处理方式</strong>，可以把泊松分布画出来。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">dpois</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">12</span>, <span class="dv">5</span>), <span class="dt">names.arg =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">12</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="M-for-M_files/figure-html/unnamed-chunk-17-1.png" alt="发生1到12次突变的概率分布" width="672" />
+<p class="caption">
+Figure 2.9: 发生1到12次突变的概率分布
+</p>
+</div>
+</div>
+<div id="r" class="section level4">
+<h4><span class="header-section-number">2.3.2.2</span> 荡开一会看R语言的函数</h4>
 <p>在R语言中，一个概率一般有4种不同的函数，如泊松分布是这样的。</p>
 <blockquote>
 <ul>
@@ -401,9 +414,62 @@ Figure 2.8: 多项式分布的wikipedia解释
 <p>The Poisson distribution has density</p>
 <p><span class="math display">\[p(x) = λ^x e^{-λ}/x!\]</span></p>
 <p>for x = 0, 1, 2, … . The mean and variance are E(X) = Var(X) = λ.</p>
-<p>这里有一个疑问，例子中10000个基因突变5个，计算3 用的公式是<code>dpois(x = 3, lambda = 5)</code>，但</p>
-
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="fl">0.5</span>) <span class="co"># 这是在0.5的概率下，扔十次硬币，5次1的概率（假设正面为1，反面为0）。为什么叫density，就是因为只看这一次的，是密度。对应的是massive，质量，在R里面是distribution function, pbinom,就是这个次数之前累积的了。</span></a></code></pre></div>
+<pre><code>## [1] 0.2460938</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">pbinom</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="fl">0.5</span>) <span class="co"># </span></a></code></pre></div>
+<pre><code>## [1] 0.6230469</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">dbinom</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">10</span>, <span class="fl">0.5</span>)) <span class="co"># 看这个密度加起来，和上面差不多吧。</span></a></code></pre></div>
+<pre><code>## [1] 0.6220703</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">pbinom</span>(<span class="dv">5</span>,<span class="dv">10</span>, <span class="fl">0.5</span> , <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)  <span class="co"># lower.tail是比这个大</span></a></code></pre></div>
+<pre><code>## [1] 0.3769531</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">dpois</span>(<span class="dv">3</span>, <span class="dv">5</span>) <span class="co"># 也是密度</span></a></code></pre></div>
+<pre><code>## [1] 0.1403739</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">dpois</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">5</span>)) <span class="co">#密度之和，</span></a></code></pre></div>
+<pre><code>## [1] 0.258288</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">ppois</span>(<span class="dv">3</span>, <span class="dv">5</span>) <span class="co"># distribution</span></a></code></pre></div>
+<pre><code>## [1] 0.2650259</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">qpois</span>(<span class="fl">0.2650259</span>, <span class="dv">5</span>) <span class="co"># 按3的概率，倒推出3</span></a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
 </div>
+<div id="section-2.3.2.3" class="section level4">
+<h4><span class="header-section-number">2.3.2.3</span> 离散模型的应用</h4>
+<p>这里把Bernouli和 Binomial 联系起来说了。Bernouli是单次的是否试验（trail），Binomial是一串Bernouli。抗体可以根据抗原特性折叠，</p>
+<p><span class="math display">\[\begin{equation*}
+\begin{aligned}
+P(X=k) &amp;=&amp; \frac{n\times (n-1)... (n-k+1)}{k\times(k-1)... 1}\; p^k\, (1-p)^{n-k} \\
+&amp;=&amp; \frac{n!}{(n-k)!k!}\;p^k\, (1-p)^{n-k}\\
+&amp;=&amp; { n \choose k}\; p^k\, (1-p)^{n-k}.\end{aligned}
+\end{equation*}\]</span></p>
+</div>
+</div>
+<div id="a-generative-model-for-epitope-detection" class="section level3">
+<h3><span class="header-section-number">2.3.3</span> 应用一个表位检测模型（a generative model for epitope detection）</h3>
+<p>有的蛋白会引发人体过敏（allergic reaction），蛋白大分子上引发过敏的位置叫表位（epitope）。面对抗原（antigen），白细胞会产生抗体（antibody）。有些抗体直接摧毁抗原，有些召集（recruit）白细胞摧毁抗原。表位是免疫系统识别抗原的关键位置，如抗体、B细胞、T细胞，大多通过表位识别抗原。</p>
+<p>基于上述，看这个 <a href="https://en.wikipedia.org/wiki/ELISA">ELISA error model</a>，即<a href="https://zh.wikipedia.org/wiki/%E9%85%B6%E8%81%94%E5%85%8D%E7%96%AB%E5%90%B8%E9%99%84%E8%AF%95%E9%AA%8C">酶联免疫吸附试验</a>，用来检测某蛋白不同位置的特定表位。该模型有以下假定：</p>
+<blockquote>
+<ul>
+<li></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>在100个不同位置检测某蛋白，检测相对独立。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>本章检测50个病人的样本。</li>
+</ul>
+</blockquote>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/e100.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">e100</a></code></pre></div>
+<pre><code>##   [1] 2 0 1 0 0 0 2 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 1 0 1 0 0 0 1 0 0 0 0 1 0
+##  [36] 1 1 0 1 2 2 7 1 0 2 0 1 0 1 1 1 1 0 1 0 0 0 0 1 2 2 1 0 0 0 0 0 1 0 0
+##  [71] 0 1 1 0 0 1 1 0 0 0 0 1 0 0 0 1 0 1 0 0 1 1 0 0 1 1 0 0 1 0</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">barplot</span>(e100, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">7</span>), <span class="dt">width =</span> <span class="fl">0.7</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">100.5</span>),</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">  <span class="dt">names.arg =</span> <span class="kw">seq</span>(<span class="dt">along =</span> e100), <span class="dt">col =</span> <span class="st">&quot;darkolivegreen&quot;</span>)</a></code></pre></div>
+<p><img src="M-for-M_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+
 </div>
 </div>
 </div>

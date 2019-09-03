@@ -108,6 +108,17 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/multi.png"
 dpois(x = 3, lambda = 5)
 ```
 
+不太明白，lambda是平均数，这里是5，可能没有明确在10000里面发生5啊，那么`dpois(x = 30, lambda = 50)` 应该得到一样的值吧，可实际上差大了。why！存疑吧。。。
+
+结合R中的作图，和非常牛逼非常适合统计的**向量数据处理方式**，可以把泊松分布画出来。
+
+```{r, fig.cap="发生1到12次突变的概率分布", fig.align='center'}
+barplot(dpois(0:12, 5), names.arg = 0:12, col = "red")
+```
+
+
+#### 荡开一会看R语言的函数 
+
 在R语言中，一个概率一般有4种不同的函数，如泊松分布是这样的。
 
 > * Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
@@ -138,10 +149,55 @@ $$p(x) = λ^x e^{-λ}/x!$$
 
 for x = 0, 1, 2, … . The mean and variance are E(X) = Var(X) = λ.
 
-这里有一个疑问，例子中10000个基因突变5个，计算3 用的公式是`dpois(x = 3, lambda = 5)`，但
+```{r}
+dbinom(5, 10, 0.5) # 这是在0.5的概率下，扔十次硬币，5次1的概率（假设正面为1，反面为0）。为什么叫density，就是因为只看这一次的，是密度。对应的是massive，质量，在R里面是distribution function, pbinom,就是这个次数之前累积的了。
+
+pbinom(5, 10, 0.5) # 
+sum(dbinom(1:5, 10, 0.5)) # 看这个密度加起来，和上面差不多吧。
+
+pbinom(5,10, 0.5 , lower.tail = FALSE)  # lower.tail是比这个大
+```
+
+
+```{r}
+dpois(3, 5) # 也是密度
+sum(dpois(1:3, 5)) #密度之和，
+ppois(3, 5) # distribution
+qpois(0.2650259, 5) # 按3的概率，倒推出3
+```
+
+#### 离散模型的应用
+
+这里把Bernouli和 Binomial 联系起来说了。Bernouli是单次的是否试验（trail），Binomial是一串Bernouli。抗体可以根据抗原特性折叠，
 
 
 
+$$\begin{equation*}
+\begin{aligned}
+P(X=k) &=& \frac{n\times (n-1)... (n-k+1)}{k\times(k-1)... 1}\; p^k\, (1-p)^{n-k} \\
+&=& \frac{n!}{(n-k)!k!}\;p^k\, (1-p)^{n-k}\\
+&=& { n \choose k}\; p^k\, (1-p)^{n-k}.\end{aligned}
+\end{equation*}$$
+
+
+### 应用一个表位检测模型（a generative model for epitope detection）
+
+有的蛋白会引发人体过敏（allergic reaction），蛋白大分子上引发过敏的位置叫表位（epitope）。面对抗原（antigen），白细胞会产生抗体（antibody）。有些抗体直接摧毁抗原，有些召集（recruit）白细胞摧毁抗原。表位是免疫系统识别抗原的关键位置，如抗体、B细胞、T细胞，大多通过表位识别抗原。
+
+基于上述，看这个 [ELISA error model](https://en.wikipedia.org/wiki/ELISA)，即[酶联免疫吸附试验](https://zh.wikipedia.org/wiki/%E9%85%B6%E8%81%94%E5%85%8D%E7%96%AB%E5%90%B8%E9%99%84%E8%AF%95%E9%AA%8C)，用来检测某蛋白不同位置的特定表位。该模型有以下假定：
+
+> * 
+
+> * 在100个不同位置检测某蛋白，检测相对独立。
+
+> * 本章检测50个病人的样本。
+
+```{r}
+load("data/e100.RData")
+e100
+barplot(e100, ylim = c(0, 7), width = 0.7, xlim = c(-0.5, 100.5),
+  names.arg = seq(along = e100), col = "darkolivegreen")
+```
 
 
 
