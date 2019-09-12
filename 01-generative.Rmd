@@ -2,7 +2,7 @@
 
 ## 本章概述
 
-这一章是假设各种符合某分布的数据，主要以DNA、碱基等为描述对象。原书中的说法是 top-bottom 的方式，从我们了解的各种概率分布（top）开始，设计符合这些分布原则的具体问题，如碱基分布模式等。当然这是一种理想化的训练，实际的问题多是反方向 bottom-top 的，通过分析实际数据获取数据规律，或者建立模型。
+这一章从介绍概率、不同分布开始，假设各种符合某分布的数据，主要以DNA、碱基等为描述对象。原书中的说法是 top-bottom 的方式，从我们了解的各种概率分布（top）开始，设计符合这些分布原则的具体问题，如碱基分布模式等。当然这是一种理想化的训练，实际的问题多是反方向 bottom-top 的，通过分析实际数据获取数据规律，或者建立模型。
 
 本章主要目标包括：
 
@@ -21,9 +21,9 @@ Use the R functions for computing probabilities and counting rare events.
 * 生成符合特定分布的随机数。   
 Generate random numbers from specified distributions.
 
-## 回顾一些基础知识
+有一点比较疑惑 —— 统计理论可以藏得多深？这里找的一些例子和统计分布关系密切，但之前一些相关、回归、降维的分析，基本涉及不到统计分布的知识。希望通过学习能把这些之间的内在联系搞清楚一点。
 
-### 概率论与数理统计
+## 回顾一点概率论与数理统计
 
 看这一章，感觉有些概念不清楚，再去学陈希孺老先生的的《概率论与统计统计》。
 
@@ -46,11 +46,11 @@ $$(a + b)^n = \sum_{i=0}^{n} \binom{n}{i} a^ib^{n-i} $$
 $$n!/(r_1!...r_k!)$$
 它是$(x_1 + x_2 + ... + x_k)^n$的展开式中，$x_1^{r_1}...x_k^{r_k}$这一项的系数。
 
-虽然不知道这几个公式和二项分布、多项分布有啥关系，不过老先生不会随便说，先放着慢慢领会吧。
+不知道这几个公式和二项分布、多项分布有啥关系……不过老先生不会随便说，放着慢慢领会。
 
+感觉清楚点了抓紧回过头看本书。概率论与数理统计晚点再学。
 
-
-### 生命科学一些基础知识（直接看图吧）
+## 生命科学一些基础知识（直接看图）
 
 ```{r , fig.cap='DNA 展开结构示意图。染色体-染色质-组织蛋白-脱氧核糖核酸双螺旋结构-基因-碱基对', fig.align='center',  out.width='80%', echo=FALSE}
 knitr::include_graphics("static/Users/eco/M for M/01-generative_files/DNA sequence.png")
@@ -64,30 +64,20 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/codon.jpg"
 knitr::include_graphics("static/Users/eco/M for M/01-generative_files/dna.jpg")
 ```
 
-## 本章主要内容
-
-### 大体框架
+## 本章大体框架
 
 如原文所说，这一章是一种“从上而下”的套路练习。通过设计一些符合概率分布模型的数据，了解数据和概率之间的关系。主要讲了4种分布：
 
-* 伯努利分布（**Bernoulli distribution**），又称两点分布或者'0-1'分布，要么成功是1，要么失败是0，只有一种可能。
+* 伯努利分布（Bernoulli distribution），是二项式分布的特殊形式（n = 1）又称两点分布或者'0-1'分布，要么成功是1，要么失败是0，只有一种可能。
 
-> It is a special case of the binomial distribution for n = 1. In other words, it is a binomial distribution with a single trial (e.g. a single coin toss)。   
-The Bernoulli distribution is closely related to the Binomial distribution. As long as each individual Bernoulli trial is independent, then the number of successes in a series of Bernoulli trails has a Binomial Distribution.The Bernoulli distribution can also be defined as the Binomial distribution with n = 1.  
-Bernoulli distributions are used in logistic regression to model disease occurrence.    
-[Bernoulli distributions are used in logistic regression to model disease occurrence.](https://www.statisticshowto.datasciencecentral.com/bernoulli-distribution/).
+* 二项式分布（**binomial distribution**），二项分布即重复n次的伯努里试验，典型例子是扔硬币，硬币正面朝上概率为p, 重复扔n次硬币，k次为正面的概率即为一个二项分布概率。按陈先生的思路，这就是一个排列组合问题：要在扔n次中有k次成功，成功概率为p，则失败概率为1-p，每次试验独立，则要求k个p都要发生，n-k个1-p也要发生，即 $p^k(1-p)^{n-k}$。如果不明白的话考虑一下扔硬币，正面想上的概率是0.5，扔两次正面都往上的概率是$0.5^2$，扔四次，两次正，两次反的概率是$0.5^2 * 0.5^2$。再回到n次，有k次成功，发生的位置，或者说次序可能不同，占据k个位置有$\binom n k$ 种可能，所以发生k次成功的几率为：$\binom n k p^k(1-p)^{n-k}$。这个分布和泊松分布、正态分布都有联系。n很大而p很小时，n*p趋近一个常数，就近似为泊松分 布（这个在手动计算的年代方便、好算），这两种都是离散分布。
 
-```{r , fig.cap='伯努利分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
-knitr::include_graphics("static/Users/eco/M for M/01-generative_files/bonuli.png")
-```
-
-* 二项式分布（**binomial distribution**），二项分布即重复n次的伯努里试验。在每次试验中只有两种可能的结果，而且是互相对立的，是独立的,与其它各次试验结果无关，结果事件发生的概率在整个系列试验中保持不变，则这一系列试验称为伯努力试验。  
-二项分布的典型例子是扔硬币，硬币正面朝上概率为p, 重复扔n次硬币，k次为正面的概率即为一个二项分布概率。
 ```{r , fig.cap='二项分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
 knitr::include_graphics("static/Users/eco/M for M/01-generative_files/binomial.png")
 ```
 
-* 泊松分布（**Poisson distribution**），泊松分布是二项分布n很大而p很小时的一种极限形式二项分布是说，已知某件事情发生的概率是p，那么做n次试验，事情发生的次数就服从于二项分布。泊松分布是指某段连续的时间内某件事情发生的次数，而且“某件事情”发生所用的时间是可以忽略的。例如，在五分钟内，电子元件遭受脉冲的次数，就服从于泊松分布。假如你把“连续的时间”分割成无数小份，那么每个小份之间都是相互独立的。在每个很小的时间区间内，电子元件都有可能“遭受到脉冲”或者“没有遭受到脉冲”，这就可以被认为是一个p很小的二项分布。而因为“连续的时间”被分割成无穷多份，因此n(试验次数)很大。所以，泊松分布可以认为是二项分布的一种极限形式。因为二项分布其实就是一个最最简单的“发生”与“不发生”的分布，它可以描述非常多的随机的自然界现象，因此其极限形式泊松分布自然也是非常有用的。
+* 泊松分布（**Poisson distribution**），泊松分布是二项分布n很大而p很小时的一种极限形式。
+
 ```{r , fig.cap='泊松分布的维基百科解释', fig.align='center',  out.width='100%', echo=FALSE}
 knitr::include_graphics("static/Users/eco/M for M/01-generative_files/bosong.png")
 ```
@@ -98,9 +88,7 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/multi.png"
 ```
 
 
-### 分头看看几种分布
-
-#### 泊松分布
+## 泊松分布
 
 原书首先介绍了泊松分布的一个示例。在一段HIV基因上，一次转录发生突变的概率为$5 × 10^{-4}$, 也就是说，一段含有10000个核苷酸（nucleotides）的HIV基因，在一次复制过程中，发生突变的核苷酸个数在5左右，标准差为$\sqrt5$。这个5，在R语言的泊松分布公式中，称为频率参数（rate parameter），写作$\lambda$。 通过确定了出现频率的泊松分布，可以计算某个频率出现的概率。如，计算这段DNA中出现3个变异的概率是多少，实现方式如下。
 
@@ -108,16 +96,18 @@ knitr::include_graphics("static/Users/eco/M for M/01-generative_files/multi.png"
 dpois(x = 3, lambda = 5)
 ```
 
-不太明白，lambda是平均数，这里是5，可能没有明确在10000里面发生5啊，那么`dpois(x = 30, lambda = 50)` 应该得到一样的值吧，可实际上差大了。why！存疑吧。。。
+本来不太明白，R里面说lambda是平均数（vector of (non-negative) means.），这里是5，可能没有明确在10000里面发生5啊，那么`dpois(x = 30, lambda = 50)` 应该得到一样的值吧，可实际上差大了。why！
 
-结合R中的作图，和非常牛逼非常适合统计的**向量数据处理方式**，可以把泊松分布画出来。
+其实呢，这个5，其实是单位时间的平均发生率。如同“一段时间内某路口发生事故的个数”一样，其实就是n*p。$p = \lambda/n$。上面R的函数中，是知道$\lambda$是5，求发生3次的可能是多少。
+
+结合R中的作图，和非常牛逼非常适合统计的**向量数据处理方式**，可以把泊松分布画出来。能够清晰地看到，$\lambda$是5的时候，发生0到12次的概率分别是多少。
 
 ```{r, fig.cap="发生1到12次突变的概率分布", fig.align='center'}
 barplot(dpois(0:12, 5), names.arg = 0:12, col = "red")
 ```
 
 
-#### 荡开一会看R语言的函数 
+## 荡开一会看R语言的函数 
 
 在R语言中，一个概率一般有4种不同的函数，如泊松分布是这样的。
 
@@ -141,56 +131,68 @@ lambda	| vector of (non-negative) means.
 log, log.p	 |  logical; if TRUE, probabilities p are given as log(p).
 lower.tail	|  logical; if TRUE (default), probabilities are P[X ≤ x], otherwise, P[X > x].
 
-> **quantiles, 分位数**，亦称分位点，是指用分割点将一个随机变量的概率分布范围分为几个具有相同概率的连续区间。分割点的数量比划分出的区间少1，例如3个分割点能分出4个区间。 常用的有中位数、四分位数、十分位数、百分位数等。q-quantile是指将有限值集分为q个接近相同尺寸的子集。
+里面的 **quantiles, 分位数**，拿出来说一下，也叫分位点，就是概率分布上选的点，常用的有中位数、四分位数、十分位数、百分位数等。感觉是原来手工时代的习惯，在函数中只要是整数，往上放就行，如前面例子中用的3。就是这段基因发生突变的平均数为5，那发生3次突变的概率是多少。3怎么分位了？我要高兴随便写个100也行，就是概率小点而已。可以理解为**成功次数**。为什么叫density，就是因为只看这一次的，是密度。对应的是massive，质量，在R里面是distribution function, 如二项分布里的pbinom,就是这个次数之前累积的了。
 
-The Poisson distribution has density
-
-$$p(x) = λ^x e^{-λ}/x!$$
-
-for x = 0, 1, 2, … . The mean and variance are E(X) = Var(X) = λ.
+二项分布
 
 ```{r}
-dbinom(5, 10, 0.5) # 这是在0.5的概率下，扔十次硬币，5次1的概率（假设正面为1，反面为0）。为什么叫density，就是因为只看这一次的，是密度。对应的是massive，质量，在R里面是distribution function, pbinom,就是这个次数之前累积的了。
+dbinom(5, 10, 0.5) # 这是在0.5的概率下，扔十次硬币，5次1的概率（假设正面为1，反面为0）。
 
-pbinom(5, 10, 0.5) # 
+pbinom(5, 10, 0.5) # 这个次数的成功，以及之前累积的。
+
 sum(dbinom(1:5, 10, 0.5)) # 看这个密度加起来，和上面差不多吧。
 
-pbinom(5,10, 0.5 , lower.tail = FALSE)  # lower.tail是比这个大
+pbinom(5,10, 0.5 , lower.tail = FALSE)  # lower.tail是比5这个数大的话概率是多少。
 ```
 
+再看看泊松分布，也类似。
 
 ```{r}
-dpois(3, 5) # 也是密度
-sum(dpois(1:3, 5)) #密度之和，
-ppois(3, 5) # distribution
-qpois(0.2650259, 5) # 按3的概率，倒推出3
+dpois(3, 5) # 平均发生5次，发生3次时候的概率，密度。
+sum(dpois(0:3, 5)) #密度之和。
+ppois(3, 5) # 总概率。和前面的密度和一致。
+qpois(0.2650259, 5) # 按3的概率，计算这个概率下，能有多少次成功的，倒推出3。因为这是计算分位数，所以只能得出整数，而且概率上下稍微浮动下，也只会算出相近的分位数整数。
 ```
 
-#### 离散模型的应用
+另外可以方便地生成符合分布的随机数。
 
-这里把Bernouli和 Binomial 联系起来说了。Bernouli是单次的是否试验（trail），Binomial是一串Bernouli。抗体可以根据抗原特性折叠，
-
-
-
-$$\begin{equation*}
-\begin{aligned}
-P(X=k) &=& \frac{n\times (n-1)... (n-k+1)}{k\times(k-1)... 1}\; p^k\, (1-p)^{n-k} \\
-&=& \frac{n!}{(n-k)!k!}\;p^k\, (1-p)^{n-k}\\
-&=& { n \choose k}\; p^k\, (1-p)^{n-k}.\end{aligned}
-\end{equation*}$$
+```{r}
+rbinom(15, prob = 0.5, size = 1) # 按照每次试验做一次，成功概率为0.5，观察15次，每次成功与否。
+rbinom(1, prob = 2/3, size = 15) # 每次试验15次，成功概率为2/3，观察1次，成功了几次。
+```
 
 
-### 应用一个表位检测模型（a generative model for epitope detection）
+
+
+## 应用一个表位检测模型（a generative model for epitope detection）
 
 有的蛋白会引发人体过敏（allergic reaction），蛋白大分子上引发过敏的位置叫表位（epitope）。面对抗原（antigen），白细胞会产生抗体（antibody）。有些抗体直接摧毁抗原，有些召集（recruit）白细胞摧毁抗原。表位是免疫系统识别抗原的关键位置，如抗体、B细胞、T细胞，大多通过表位识别抗原。
 
-基于上述，看这个 [ELISA error model](https://en.wikipedia.org/wiki/ELISA)，即[酶联免疫吸附试验](https://zh.wikipedia.org/wiki/%E9%85%B6%E8%81%94%E5%85%8D%E7%96%AB%E5%90%B8%E9%99%84%E8%AF%95%E9%AA%8C)，用来检测某蛋白不同位置的特定表位。该模型有以下假定：
+```{r , fig.cap='抗体示意图，不同颜色是免疫球蛋白', fig.align='center',  out.width='50%', echo=FALSE}
+knitr::include_graphics("http://web.stanford.edu/class/bios221/book/images/Antibody_IgG2.png")
+```
 
-> * 
+基于上述，看这个 [ELISA error model](https://en.wikipedia.org/wiki/ELISA)，即[酶联免疫吸附试验](https://zh.wikipedia.org/wiki/%E9%85%B6%E8%81%94%E5%85%8D%E7%96%AB%E5%90%B8%E9%99%84%E8%AF%95%E9%AA%8C)，用来检测某蛋白不同位置的特定表位。该模型有以下假定：
+> * 一般人都能检测出敏感表位，叫噪声值，检测到的概率为0.01，检测到表位标记为1.
 
 > * 在100个不同位置检测某蛋白，检测相对独立。
 
 > * 本章检测50个病人的样本。
+
+先做个符合设定的一个病人的分布。
+
+```{r}
+rpois(100, 0.01)
+```
+
+如果每个病人的过敏表位都泊松分布的，那么50个病人的数据加起来，数据也应该符合泊松分布，只不过检测到的概率成了0.01*50=0.5，类似下面这样的分布。
+
+```{r}
+rpois(100, 0.5)
+barplot(rpois(100, 0.5), width = 0.7, xlim = c(-0.5, 100.5))
+```
+
+如果个别位点特别容易检测到表位，那肯定就不符合泊松分布了，需要进行计算分析。载入书中所给数据。
 
 ```{r}
 load("data/e100.RData")
@@ -198,6 +200,64 @@ e100
 barplot(e100, ylim = c(0, 7), width = 0.7, xlim = c(-0.5, 100.5),
   names.arg = seq(along = e100), col = "darkolivegreen")
 ```
+
+一看，有点不正常，50个人里居然有7个在某位点检测到表位，这符合泊松分布吗？这就是计算平均值为0.5的时候，密度为7的概率。我的第一反应是这样算：
+
+```{r}
+dpois(7, 0.5)
+```
+
+但书中绕了个圈，不但没说这么算，$ppois(6, 0.5, lower.tail = FALSE)$ 也不对，应该计算100个$\lambda =0.5$的泊松分布中，最大值大于等于7的概率。这就是$1-\prod_{i=1}^{100} P(x_i \leq 6 )$，也就是$(1-\epsilon)^{100}$。注意这个epsilon在数学里经常用来表示一个很小的数。经过
+，或者用模拟（simulation）算，这里用的蒙特拉罗方法（Monte Carlo method）。
+
+```{r}
+maxes = replicate(100000, {
+  max(rpois(100, 0.5)) # 取泊松分布的最大值，重复10000次。
+})
+table(maxes)
+```
+
+这里面大于等于7的个数，除以10000，就是用模拟算出来的，符合泊松分布出现大于等于7的概率。
+
+```{r}
+mean(maxes >= 7) # 处处炫技，括号里是10000个逻辑值，计算时候FALSE是0， TRUE是1，平均出来概率。
+```
+
+可以看到，和我想的方法相比，虽然都很小，但是有数量级的差别。至于为什么先存疑。另外，用模拟的方法计算，精度受到模拟次数的限制。这很好理解，比如做10000次模拟，只能除以10000，没法达到更小的数位，所以不能得到0.00000000123这样的结果。
+
+## 多项分布（Multinomial distribution）
+
+当一次试验有大于2个结果时，就要引入多项分布。同样，一次试验的多个结果要有互斥、加和为1等特点。如一种产品分成几种等级，一段基因有4种碱基等情况。
+
+```{r , fig.cap='多项式模型', fig.align='center',  out.width='50%', echo=FALSE}
+knitr::include_graphics("http://web.stanford.edu/class/bios221/book/images/BallsinBoxes4.jpg")
+```
+
+原书中在推导了多项分布的公式后，提出一个问题：球落到4个盒子之一的问题，如果落到各盒子的几率相等，那么观察到4个球落到第一个盒子，2个球落到第二个盒子，其他两个没有的概率是多少。
+
+$$\begin{equation*}
+P(4,2,0,0)=\frac{6\times 5\times 4\times 3\times 2}{4\times 3\times 2 \times 2}
+\frac{1}{4^6}
+=\frac{15}{4^6}\simeq 0.0037.
+\end{equation*}$$
+
+```{r}
+dmultinom(c(4, 2, 0, 0), prob = c(0.25, 0.25, 0.25, 0.25))
+```
+
+
+## 多项分布的权重（power）
+
+这一部分没看太明白，先放着，往后看。
+
+主要涉及解决“需要多大样本量”的问题。通过蒙特拉罗方法，确定我们需要多大的样本量，才能检验概率相等一个多项分布模型，是否与实际数据一致。
+
+
+
+
+
+
+
 
 
 
