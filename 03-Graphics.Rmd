@@ -1,3 +1,102 @@
 # High-Quality Graphics in R
 
-We describe our methods in this chapter.
+一说作图，肯定绕不开ggplot2，围绕这个包已经形成一个生态了。本章也是重点介绍[ggplot2](http://had.co.nz/ggplot2/book)系在生命科学领域的应用，按一维、二维……多维讨论，并介绍分子生物学领域“沿序列（along-sequences）”的作图。
+
+本章目标如下：
+
+* 学习通过可视化快速灵活探索数据。
+* 做图，漂亮直观的图，用在论文和研究中的。
+* R作图基础。
+* 理解作图的语法概念和逻辑。
+* 学习ggplot2的作图方法
+* 在一维、二维、三维到五维展示数据，探索分面操作（faceting）
+* 探索分子生物学书中“沿基因组”作图，或沿其他序列，如肽链（peptides）。
+* 讨论一些能互动的图的做法。
+
+## R作图基操
+
+R程序中自带DNase这个数据，里面包含Run，conc， 和density三列，Run是分析批次，conc是使用的蛋白密度（concentration）,density是测量的光密度。
+
+```{r, fig.align='center',  out.width='40%'}
+head(DNase)
+plot(DNase$conc,  DNase$density)
+```
+
+然后对基本作图进行定制，通过xlab，ylab，pch（plot character）参数设置。其中对attr的使用值得关注一下。
+
+```{r}
+str(DNase) # 可以发现跟着3个- attr，(*, "formula")=，(*, "labels")，attr(*, "units")
+
+attr(DNase, "labels") # 再看看这几个attr如何摆布
+
+attr(DNase, "formula")
+```
+
+然后结合如何设置参数，可以有所体悟。
+
+```{r, out.width="50", fig.align='center'}
+plot(DNase$conc, DNase$density,
+     xlab = paste(attr(DNase, "lable")$x, attr(DNase, "units")$x),
+     ylab = attr(DNase, "labels")$y,
+     pch = 3,
+     col = "blue"
+     )
+```
+
+## 一个数据实例，引入ggplot2
+
+安装一个包 `BiocManager::install("Hiiragi2013")`，然后载入。这个包是小鼠早期分裂过程中信号增强的数据集。
+
+```{r, echo=FALSE}
+library("Hiiragi2013")
+```
+
+```{r}
+data("x")
+x
+dim(Biobase::exprs(x)) # 使用Biobase包中的exprs函数。
+```
+
+这101列，是代表101个细胞，45101行，每一行是芯片/阵列（array）探测到的基因。数据通过RMA方法进行正态化。原始数据也在包里，a就是，也可以在EMBL-EBI数据中，以EMTAB-1681查询。
+
+一个细胞长得这样，具体怎么转变成数字，咱也不知道，暂时也不问了，不影响学习方法。
+
+```{r , fig.cap='单细胞免疫荧光图像，E3.5小鼠胚胎，对Serpinh1染色', fig.align='center',  out.width='40%', echo=FALSE}
+knitr::include_graphics("http://web.stanford.edu/class/bios221/book/images/Yusukecells-2.jpg")
+```
+
+
+```{r}
+head(pData(x), n = 2) # pData(), Retrieve information on experimental phenotypes recorded in eSet and ExpressionSet-derived classes.
+```
+
+这组数据，主要是记录细胞大小、基因型、从胚胎哪部分获取的，以及读取时间、原始数据文件名称等。
+
+差一些资料，这里有点有用的，记录一下。http://veda.cs.uiuc.edu/CompGen2017/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,7 @@
 <meta name="author" content="王强" />
 
 
-<meta name="date" content="2019-09-10" />
+<meta name="date" content="2019-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,8 +161,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#section-3.3.1"><i class="fa fa-check"></i><b>3.3.1</b> 可能性就是概率，概率就是可能性的概率</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#section-3.4"><i class="fa fa-check"></i><b>3.4</b> 多元数据</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#-chi2-distribution"><i class="fa fa-check"></i><b>3.5</b> 卡方分布 （<span class="math inline">\(\chi^2 distribution\)</span>）</a></li>
+<li class="chapter" data-level="3.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#chargaffs-rul"><i class="fa fa-check"></i><b>3.6</b> 查格夫定律（Chargaff’s Rul）</a></li>
+<li class="chapter" data-level="3.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#section-3.7"><i class="fa fa-check"></i><b>3.7</b> 贝叶斯方法</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="high-quality-graphics-in-r.html"><a href="high-quality-graphics-in-r.html"><i class="fa fa-check"></i><b>4</b> High-Quality Graphics in R</a></li>
+<li class="chapter" data-level="4" data-path="high-quality-graphics-in-r.html"><a href="high-quality-graphics-in-r.html"><i class="fa fa-check"></i><b>4</b> High-Quality Graphics in R</a><ul>
+<li class="chapter" data-level="4.1" data-path="intro.html"><a href="intro.html#r"><i class="fa fa-check"></i><b>4.1</b> R作图基操</a></li>
+<li class="chapter" data-level="4.2" data-path="high-quality-graphics-in-r.html"><a href="high-quality-graphics-in-r.html#ggplot2"><i class="fa fa-check"></i><b>4.2</b> 一个数据实例，引入ggplot2</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="mixture-models.html"><a href="mixture-models.html"><i class="fa fa-check"></i><b>5</b> Mixture Models</a></li>
 <li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a></li>
 <li class="chapter" data-level="7" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>7</b> Testing</a></li>
@@ -196,8 +202,107 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="high-quality-graphics-in-r" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> High-Quality Graphics in R</h1>
-<p>We describe our methods in this chapter.</p>
+<p>一说作图，肯定绕不开ggplot2，围绕这个包已经形成一个生态了。本章也是重点介绍<a href="http://had.co.nz/ggplot2/book">ggplot2</a>系在生命科学领域的应用，按一维、二维……多维讨论，并介绍分子生物学领域“沿序列（along-sequences）”的作图。</p>
+<p>本章目标如下：</p>
+<ul>
+<li>学习通过可视化快速灵活探索数据。</li>
+<li>做图，漂亮直观的图，用在论文和研究中的。</li>
+<li>R作图基础。</li>
+<li>理解作图的语法概念和逻辑。</li>
+<li>学习ggplot2的作图方法</li>
+<li>在一维、二维、三维到五维展示数据，探索分面操作（faceting）</li>
+<li>探索分子生物学书中“沿基因组”作图，或沿其他序列，如肽链（peptides）。</li>
+<li>讨论一些能互动的图的做法。</li>
+</ul>
+<div id="r" class="section level2">
+<h2><span class="header-section-number">4.1</span> R作图基操</h2>
+<p>R程序中自带DNase这个数据，里面包含Run，conc， 和density三列，Run是分析批次，conc是使用的蛋白密度（concentration）,density是测量的光密度。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">head</span>(DNase)</a></code></pre></div>
+<pre><code>## Grouped Data: density ~ conc | Run
+##   Run       conc density
+## 1   1 0.04882812   0.017
+## 2   1 0.04882812   0.018
+## 3   1 0.19531250   0.121
+## 4   1 0.19531250   0.124
+## 5   1 0.39062500   0.206
+## 6   1 0.39062500   0.215</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">plot</span>(DNase<span class="op">$</span>conc,  DNase<span class="op">$</span>density)</a></code></pre></div>
+<p><img src="M-for-M_files/figure-html/unnamed-chunk-1-1.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>然后对基本作图进行定制，通过xlab，ylab，pch（plot character）参数设置。其中对attr的使用值得关注一下。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">str</span>(DNase) <span class="co"># 可以发现跟着3个- attr，(*, &quot;formula&quot;)=，(*, &quot;labels&quot;)，attr(*, &quot;units&quot;)</span></a></code></pre></div>
+<pre><code>## Classes &#39;nfnGroupedData&#39;, &#39;nfGroupedData&#39;, &#39;groupedData&#39; and &#39;data.frame&#39;:   176 obs. of  3 variables:
+##  $ Run    : Ord.factor w/ 11 levels &quot;10&quot;&lt;&quot;11&quot;&lt;&quot;9&quot;&lt;..: 4 4 4 4 4 4 4 4 4 4 ...
+##  $ conc   : num  0.0488 0.0488 0.1953 0.1953 0.3906 ...
+##  $ density: num  0.017 0.018 0.121 0.124 0.206 0.215 0.377 0.374 0.614 0.609 ...
+##  - attr(*, &quot;formula&quot;)=Class &#39;formula&#39;  language density ~ conc | Run
+##   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_EmptyEnv&gt; 
+##  - attr(*, &quot;labels&quot;)=List of 2
+##   ..$ x: chr &quot;DNase concentration&quot;
+##   ..$ y: chr &quot;Optical density&quot;
+##  - attr(*, &quot;units&quot;)=List of 1
+##   ..$ x: chr &quot;(ng/ml)&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">attr</span>(DNase, <span class="st">&quot;labels&quot;</span>) <span class="co"># 再看看这几个attr如何摆布</span></a></code></pre></div>
+<pre><code>## $x
+## [1] &quot;DNase concentration&quot;
+## 
+## $y
+## [1] &quot;Optical density&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">attr</span>(DNase, <span class="st">&quot;formula&quot;</span>)</a></code></pre></div>
+<pre><code>## density ~ conc | Run
+## &lt;environment: R_EmptyEnv&gt;</code></pre>
+<p>然后结合如何设置参数，可以有所体悟。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(DNase<span class="op">$</span>conc, DNase<span class="op">$</span>density,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">     <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="kw">attr</span>(DNase, <span class="st">&quot;lable&quot;</span>)<span class="op">$</span>x, <span class="kw">attr</span>(DNase, <span class="st">&quot;units&quot;</span>)<span class="op">$</span>x),</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">     <span class="dt">ylab =</span> <span class="kw">attr</span>(DNase, <span class="st">&quot;labels&quot;</span>)<span class="op">$</span>y,</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">     <span class="dt">pch =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">     <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">     )</a></code></pre></div>
+<p><img src="M-for-M_files/figure-html/unnamed-chunk-3-1.png" width="50" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ggplot2" class="section level2">
+<h2><span class="header-section-number">4.2</span> 一个数据实例，引入ggplot2</h2>
+<p>安装一个包 <code>BiocManager::install(&quot;Hiiragi2013&quot;)</code>，然后载入。这个包是小鼠早期分裂过程中信号增强的数据集。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;x&quot;</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">x</a></code></pre></div>
+<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
+## assayData: 45101 features, 101 samples 
+##   element names: exprs 
+## protocolData
+##   sampleNames: 1 E3.25 2 E3.25 ... 101 E4.5 (FGF4-KO) (101 total)
+##   varLabels: ScanDate
+##   varMetadata: labelDescription
+## phenoData
+##   sampleNames: 1 E3.25 2 E3.25 ... 101 E4.5 (FGF4-KO) (101 total)
+##   varLabels: File.name Embryonic.day ... sampleColour (8 total)
+##   varMetadata: labelDescription
+## featureData
+##   featureNames: 1415670_at 1415671_at ... AFFX-TrpnX-M_at (45101
+##     total)
+##   fvarLabels: symbol genename ensembl
+##   fvarMetadata: labelDescription
+## experimentData: use &#39;experimentData(object)&#39;
+## Annotation: mouse4302</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">dim</span>(Biobase<span class="op">::</span><span class="kw">exprs</span>(x)) <span class="co"># 使用Biobase包中的exprs函数。</span></a></code></pre></div>
+<pre><code>## [1] 45101   101</code></pre>
+<p>这101列，是代表101个细胞，45101行，每一行是芯片/阵列（array）探测到的基因。数据通过RMA方法进行正态化。原始数据也在包里，a就是，也可以在EMBL-EBI数据中，以EMTAB-1681查询。</p>
+<p>一个细胞长得这样，具体怎么转变成数字，咱也不知道，暂时也不问了，不影响学习方法。</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="http://web.stanford.edu/class/bios221/book/images/Yusukecells-2.jpg" alt="单细胞免疫荧光图像，E3.5小鼠胚胎，对Serpinh1染色" width="40%" />
+<p class="caption">
+Figure 4.1: 单细胞免疫荧光图像，E3.5小鼠胚胎，对Serpinh1染色
+</p>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">pData</span>(x), <span class="dt">n =</span> <span class="dv">2</span>) <span class="co"># pData(), Retrieve information on experimental phenotypes recorded in eSet and ExpressionSet-derived classes.</span></a></code></pre></div>
+<pre><code>##         File.name Embryonic.day Total.number.of.cells lineage genotype
+## 1 E3.25  1_C32_IN         E3.25                    32               WT
+## 2 E3.25  2_C32_IN         E3.25                    32               WT
+##           ScanDate sampleGroup sampleColour
+## 1 E3.25 2011-03-16       E3.25      #CAB2D6
+## 2 E3.25 2011-03-16       E3.25      #CAB2D6</code></pre>
+<p>这组数据，主要是记录细胞大小、基因型、从胚胎哪部分获取的，以及读取时间、原始数据文件名称等。</p>
+<p>差一些资料，这里有点有用的，记录一下。<a href="http://veda.cs.uiuc.edu/CompGen2017/" class="uri">http://veda.cs.uiuc.edu/CompGen2017/</a></p>
 
+</div>
 </div>
             </section>
 
